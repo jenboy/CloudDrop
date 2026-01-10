@@ -2,7 +2,7 @@
  * CloudDrop - WebRTC Manager (Optimized v2)
  * Handles peer connections, data channels, and file transfer
  * with enhanced connection reliability and fast P2P-to-relay fallback
- * 
+ *
  * Key optimizations:
  * - Happy Eyeballs style parallel connection racing
  * - Early ICE candidate type detection for smart fallback
@@ -11,33 +11,32 @@
  */
 
 import { cryptoManager } from './crypto.js';
+import { WEBRTC, P2P_RETRY } from './config.js';
 
-const CHUNK_SIZE = 64 * 1024; // 64KB chunks
+// Destructure config for convenience
+const {
+  CHUNK_SIZE,
+  CONNECTION_TIMEOUT,
+  FAST_FALLBACK_TIMEOUT,
+  CANDIDATE_GATHERING_TIMEOUT,
+  SLOW_CONNECTION_THRESHOLD,
+  ICE_RESTART_DELAY,
+  MAX_ICE_RESTARTS,
+  DISCONNECTED_TIMEOUT,
+  ICE_SERVERS_CACHE_TTL,
+  FALLBACK_ICE_SERVERS,
+} = WEBRTC;
 
-// Optimized timeouts for better P2P success rate while maintaining reasonable wait time
-const CONNECTION_TIMEOUT = 10000; // 10 seconds max - give NAT traversal enough time
-const FAST_FALLBACK_TIMEOUT = 5000; // 5 seconds - allow more time for srflx/prflx candidates
-const CANDIDATE_GATHERING_TIMEOUT = 3000; // 3 seconds to gather initial candidates
-const SLOW_CONNECTION_THRESHOLD = 3000; // Show "slow connection" hint after 3 seconds
-const ICE_RESTART_DELAY = 500; // Fast restart
-const MAX_ICE_RESTARTS = 2; // Allow 2 ICE restarts before switching to relay
-const DISCONNECTED_TIMEOUT = 3000; // 3 seconds before switching to relay
-
-// Background P2P retry configuration
-const P2P_RETRY_INITIAL_DELAY = 10000; // 10 seconds before first retry
-const P2P_RETRY_INTERVAL = 30000; // Retry every 30 seconds
-const P2P_RETRY_MAX_ATTEMPTS = 10; // Max retry attempts before giving up
-
-// Minimal fallback (only used if server is unreachable)
-const FALLBACK_ICE_SERVERS = [
-  { urls: 'stun:stun.l.google.com:19302' }
-];
+const {
+  INITIAL_DELAY: P2P_RETRY_INITIAL_DELAY,
+  INTERVAL: P2P_RETRY_INTERVAL,
+  MAX_ATTEMPTS: P2P_RETRY_MAX_ATTEMPTS,
+} = P2P_RETRY;
 
 // Cache for ICE servers with health check results
 let cachedIceServers = null;
 let cachedIceServersTimestamp = 0;
 let iceServersFetchPromise = null;
-const ICE_SERVERS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
  * Check a single STUN server's health by attempting to gather ICE candidates

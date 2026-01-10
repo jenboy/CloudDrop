@@ -115,6 +115,7 @@ cloudDrop/
 │   ├── manifest.json    # PWA manifest
 │   └── js/
 │       ├── app.js       # Main application logic
+│       ├── config.js    # Unified configuration constants
 │       ├── ui.js        # UI components & helpers
 │       ├── webrtc.js    # WebRTC + relay fallback + P2P recovery
 │       └── crypto.js    # Encryption (AES-GCM + room password)

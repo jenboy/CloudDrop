@@ -5,6 +5,7 @@
 import { WebRTCManager } from './webrtc.js';
 import { cryptoManager } from './crypto.js';
 import * as ui from './ui.js';
+import { STORAGE_KEYS, ROOM } from './config.js';
 
 class CloudDrop {
   constructor() {
@@ -15,10 +16,10 @@ class CloudDrop {
     this.selectedPeer = null;
 
     // Try to get saved name from localStorage, otherwise generate new one
-    const savedName = localStorage.getItem('clouddrop_device_name');
+    const savedName = localStorage.getItem(STORAGE_KEYS.DEVICE_NAME);
     this.deviceName = savedName || ui.generateDisplayName();
     if (!savedName) {
-      localStorage.setItem('clouddrop_device_name', this.deviceName);
+      localStorage.setItem(STORAGE_KEYS.DEVICE_NAME, this.deviceName);
     }
 
     this.deviceType = ui.detectDeviceType();
@@ -45,7 +46,7 @@ class CloudDrop {
    */
   loadTrustedDevices() {
     try {
-      const saved = localStorage.getItem('clouddrop_trusted_devices');
+      const saved = localStorage.getItem(STORAGE_KEYS.TRUSTED_DEVICES);
       return saved ? new Map(JSON.parse(saved)) : new Map();
     } catch (e) {
       console.warn('Failed to load trusted devices:', e);
@@ -58,7 +59,7 @@ class CloudDrop {
    */
   saveTrustedDevices() {
     try {
-      localStorage.setItem('clouddrop_trusted_devices',
+      localStorage.setItem(STORAGE_KEYS.TRUSTED_DEVICES,
         JSON.stringify(Array.from(this.trustedDevices.entries())));
     } catch (e) {
       console.warn('Failed to save trusted devices:', e);
@@ -191,14 +192,14 @@ class CloudDrop {
    */
   async createSecureRoom(roomCode, password) {
     // Validate password
-    if (!password || password.length < 6) {
-      ui.showToast('密码至少需要6位字符', 'error');
+    if (!password || password.length < ROOM.PASSWORD_MIN_LENGTH) {
+      ui.showToast(`密码至少需要${ROOM.PASSWORD_MIN_LENGTH}位字符`, 'error');
       return false;
     }
 
     // Validate room code
-    if (!roomCode || !/^[a-zA-Z0-9]{4,16}$/.test(roomCode)) {
-      ui.showToast('房间号格式无效 (4-16位字母数字)', 'error');
+    if (!roomCode || !ROOM.CODE_PATTERN.test(roomCode)) {
+      ui.showToast(`房间号格式无效 (${ROOM.CODE_MIN_LENGTH}-${ROOM.CODE_MAX_LENGTH}位字母数字)`, 'error');
       return false;
     }
 
@@ -338,7 +339,7 @@ class CloudDrop {
 
   // Generate room code is only used for creating shareable room codes
   generateRoomCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const chars = ROOM.CODE_CHARS;
     let code = '';
     for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
     return code;
@@ -811,7 +812,7 @@ class CloudDrop {
 
   updateDeviceName(newName) {
     this.deviceName = newName;
-    localStorage.setItem('clouddrop_device_name', newName);
+    localStorage.setItem(STORAGE_KEYS.DEVICE_NAME, newName);
     this.updateDeviceNameDisplay();
 
     // Broadcast name change to all peers
@@ -952,8 +953,8 @@ class CloudDrop {
   }
 
   joinRoom(code) {
-    if (!code || !/^[a-zA-Z0-9]{4,16}$/.test(code)) {
-      ui.showToast('房间号格式无效 (4-16位字母数字)', 'error');
+    if (!code || !ROOM.CODE_PATTERN.test(code)) {
+      ui.showToast(`房间号格式无效 (${ROOM.CODE_MIN_LENGTH}-${ROOM.CODE_MAX_LENGTH}位字母数字)`, 'error');
       return;
     }
     // Navigate to new room
@@ -969,7 +970,7 @@ class CloudDrop {
   calculatePasswordStrength(password) {
     let strength = 0;
 
-    if (password.length >= 6) strength++;
+    if (password.length >= ROOM.PASSWORD_MIN_LENGTH) strength++;
     if (password.length >= 10) strength++;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
     if (/\d/.test(password)) strength++;

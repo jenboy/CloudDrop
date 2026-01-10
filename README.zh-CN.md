@@ -115,6 +115,7 @@ cloudDrop/
 │   ├── manifest.json    # PWA 清单
 │   └── js/
 │       ├── app.js       # 主应用逻辑
+│       ├── config.js    # 统一配置常量
 │       ├── ui.js        # UI 组件和辅助函数
 │       ├── webrtc.js    # WebRTC + 中继降级 + P2P 恢复
 │       └── crypto.js    # 加密（AES-GCM + 房间密码）
