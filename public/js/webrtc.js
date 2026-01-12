@@ -1637,7 +1637,15 @@ export class WebRTCManager {
       return 'p2p';
     }).catch(err => {
       console.log(`[WebRTC] P2P attempt failed for ${peerId}: ${err.message}`);
-      throw err;
+      // P2P 失败时自动切换到中继，而不是抛出错误导致整个流程失败
+      if (!racingState.resolved) {
+        racingState.resolved = true;
+        racingState.winner = 'relay';
+        this._switchToRelay(peerId, '连接失败，已切换到中继传输');
+        return 'relay';
+      }
+      // 如果已经 resolved（比如被 fallbackTimer 切换到中继），返回当前结果
+      return racingState.winner || 'relay';
     });
 
     // Create fast-fallback timer
