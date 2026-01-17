@@ -1377,7 +1377,7 @@ export class WebRTCManager {
         await new Promise(r => setTimeout(r, RELAY.CHUNK_INTERVAL));
       }
 
-      // Wait for all chunks to be acknowledged
+      // Wait for all chunks to be acknowledged (with timeout)
       const ackWaitStart = Date.now();
       while (transferState.ackedChunks.size < totalChunks) {
         if (Date.now() - ackWaitStart > RELAY.ACK_TIMEOUT * 2) {
@@ -1389,6 +1389,9 @@ export class WebRTCManager {
         }
         await new Promise(r => setTimeout(r, 100));
       }
+
+      // Extra delay to ensure last chunk is fully processed before file-end
+      await new Promise(r => setTimeout(r, 500));
 
       // Send file-end
       this.signaling.send({
@@ -1591,14 +1594,34 @@ export class WebRTCManager {
     } else if (data.type === 'file-end') {
       const transfer = this.incomingTransfers.get(peerId);
       if (transfer) {
-        // Send any remaining ACKs
+        // Send any remaining ACKs immediately
         if (transfer.pendingAcks && transfer.pendingAcks.length > 0) {
           this._sendChunkAck(peerId, transfer.fileId, transfer.pendingAcks);
+          transfer.pendingAcks = [];
         }
 
         // Verify integrity: check all chunks are present
-        const receivedCount = transfer.receivedIndices ? transfer.receivedIndices.size : 0;
         const expectedCount = data.totalChunks || transfer.totalChunks;
+        let receivedCount = transfer.receivedIndices ? transfer.receivedIndices.size : 0;
+
+        // If chunks are missing, wait a bit for them to arrive (they might be in-flight)
+        if (receivedCount < expectedCount) {
+          console.log(`[WebRTC] Waiting for missing chunks: ${receivedCount}/${expectedCount}`);
+          const waitStart = Date.now();
+          const maxWait = 3000; // Wait up to 3 seconds for missing chunks
+
+          await new Promise(resolve => {
+            const checkInterval = setInterval(() => {
+              receivedCount = transfer.receivedIndices ? transfer.receivedIndices.size : 0;
+              if (receivedCount >= expectedCount || Date.now() - waitStart > maxWait) {
+                clearInterval(checkInterval);
+                resolve();
+              }
+            }, 100);
+          });
+
+          receivedCount = transfer.receivedIndices ? transfer.receivedIndices.size : 0;
+        }
 
         if (receivedCount !== expectedCount) {
           console.error(`[WebRTC] Transfer incomplete: expected ${expectedCount} chunks, received ${receivedCount}`);
