@@ -10,9 +10,9 @@
 
 <p align="center">
   <a href="./README.md">🇺🇸 English</a> •
-  <a href="#特性">特性</a> •
-  <a href="#部署">部署</a> •
-  <a href="#开发">开发</a>
+  <a href="#-特性">特性</a> •
+  <a href="#-一键部署">部署</a> •
+  <a href="#️-开发">开发</a>
 </p>
 
 <p align="center">
@@ -117,7 +117,19 @@ npm run deploy
 为了在受限网络中获得更好的连接性，您可以配置 Cloudflare 的 TURN 服务：
 
 1. 从 [Cloudflare Dashboard](https://dash.cloudflare.com/?to=/:account/calls) 获取 TURN 凭证
-2. 将密钥添加到您的 Worker：
+2. 使用以下任一方式将密钥添加到您的 Worker：
+
+**方式一：通过 Cloudflare 控制台（推荐）**
+
+1. 访问 [Cloudflare Dashboard](https://dash.cloudflare.com/) → Workers & Pages
+2. 选择您的 CloudDrop Worker → Settings（设置）→ Variables and Secrets（变量和密钥）
+3. 在 "Secrets"（密钥）区域点击 "Add"（添加）
+4. 添加两个密钥：
+   - Name（名称）: `TURN_KEY_ID`，Value（值）: 您的 TURN Key ID
+   - Name（名称）: `TURN_KEY_API_TOKEN`，Value（值）: 您的 TURN API Token
+5. 点击 "Deploy"（部署）以应用更改
+
+**方式二：通过命令行**
 
 ```bash
 npx wrangler secret put TURN_KEY_ID

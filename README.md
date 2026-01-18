@@ -10,9 +10,9 @@
 
 <p align="center">
   <a href="./README.zh-CN.md">🇨🇳 中文文档</a> •
-  <a href="#features">Features</a> •
-  <a href="#deploy">Deploy</a> •
-  <a href="#development">Development</a>
+  <a href="#-features">Features</a> •
+  <a href="#-one-click-deploy">Deploy</a> •
+  <a href="#️-development">Development</a>
 </p>
 
 <p align="center">
@@ -117,7 +117,19 @@ npm run deploy
 For better connectivity across restrictive networks, you can configure Cloudflare's TURN service:
 
 1. Get your TURN credentials from [Cloudflare Dashboard](https://dash.cloudflare.com/?to=/:account/calls)
-2. Add secrets to your worker:
+2. Add secrets to your worker using one of these methods:
+
+**Method 1: Via Cloudflare Dashboard (Recommended)**
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) → Workers & Pages
+2. Select your CloudDrop worker → Settings → Variables and Secrets
+3. Click "Add" under "Secrets" section
+4. Add two secrets:
+   - Name: `TURN_KEY_ID`, Value: Your TURN Key ID
+   - Name: `TURN_KEY_API_TOKEN`, Value: Your TURN API Token
+5. Click "Deploy" to apply changes
+
+**Method 2: Via Command Line**
 
 ```bash
 npx wrangler secret put TURN_KEY_ID
