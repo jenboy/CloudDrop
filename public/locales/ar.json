@@ -247,7 +247,8 @@
     "copyFailed": "فشل النسخ",
     "shareNotSupported": "متصفحك لا يدعم المشاركة",
     "shareFailed": "فشلت المشاركة",
-    "invalidRoomCode": "يرجى إدخال رمز الغرفة الكامل من 6 أرقام"
+    "invalidRoomCode": "يرجى إدخال رمز الغرفة الكامل من 6 أرقام",
+    "notificationPermissionDenied": "تم رفض إذن الإشعارات في المتصفح"
   },
   "settings": {
     "title": "الإعدادات",
@@ -271,6 +272,10 @@
     "prewarm": {
       "title": "تسخين الاتصال",
       "description": "إنشاء اتصالات مسبقة عند اكتشاف الأجهزة"
+    },
+    "notifications": {
+      "title": "إشعارات المتصفح",
+      "description": "عرض إشعارات المتصفح عند استلام الملفات أو الرسائل"
     }
   },
   "navigation": {
@@ -310,5 +315,11 @@
     "networkError": "خطأ في الشبكة",
     "fileReadFailed": "فشل قراءة الملف",
     "imageLoadFailed": "فشل تحميل الصورة"
+  },
+  "notification": {
+    "fileReceived": "تم استلام ملف جديد",
+    "fileReceivedBody": "أرسل {{sender}} ملفاً: {{file}}",
+    "messageReceived": "رسالة جديدة",
+    "messageReceivedBody": "أرسل {{sender}} رسالة"
   }
 }

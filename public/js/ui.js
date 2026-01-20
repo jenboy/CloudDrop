@@ -256,9 +256,99 @@ export function triggerNotification(type = 'file') {
       navigator.vibrate(50); // Short pulse for message
     }
   }
-  
+
   // Optional: Play sound (if we add audio assets later)
   // Could use Web Audio API or Audio element
+}
+
+/**
+ * Request browser notification permission
+ * @returns {Promise<boolean>} - Returns true if permission granted
+ */
+export async function requestNotificationPermission() {
+  if (!('Notification' in window)) {
+    console.log('[UI] Browser does not support notifications');
+    return false;
+  }
+
+  if (Notification.permission === 'granted') {
+    return true;
+  }
+
+  if (Notification.permission !== 'denied') {
+    const permission = await Notification.requestPermission();
+    return permission === 'granted';
+  }
+
+  return false;
+}
+
+/**
+ * Show browser notification for file or message
+ * @param {Object} options - Notification options
+ * @param {'file' | 'message'} options.type - Notification type
+ * @param {string} options.title - Notification title
+ * @param {string} options.body - Notification body
+ * @param {string} options.senderName - Sender name (optional)
+ * @param {string} options.fileName - File name (for file type, optional)
+ */
+export function showBrowserNotification(options = {}) {
+  // Check if notifications are supported
+  if (!('Notification' in window)) {
+    console.log('[UI] Browser does not support notifications');
+    return;
+  }
+
+  // Check if permission is granted
+  if (Notification.permission !== 'granted') {
+    console.log('[UI] Notification permission not granted');
+    return;
+  }
+
+  const {
+    type = 'file',
+    title = 'CloudDrop',
+    body = '',
+    senderName = '',
+    fileName = ''
+  } = options;
+
+  // Build notification title and body
+  let notificationTitle = title;
+  let notificationBody = body;
+
+  if (type === 'file' && senderName && fileName) {
+    notificationTitle = i18n.t('notification.fileReceived') || '收到新文件';
+    notificationBody = i18n.t('notification.fileReceivedBody', { sender: senderName, file: fileName }) || `${senderName} 发送了文件：${fileName}`;
+  } else if (type === 'message' && senderName) {
+    notificationTitle = i18n.t('notification.messageReceived') || '收到新消息';
+    notificationBody = i18n.t('notification.messageReceivedBody', { sender: senderName }) || `${senderName} 发送了一条消息`;
+  }
+
+  // Create notification
+  try {
+    const notification = new Notification(notificationTitle, {
+      body: notificationBody,
+      icon: '/favicon.svg',
+      badge: '/favicon.svg',
+      tag: `clouddrop-${type}`,
+      requireInteraction: false,
+      silent: false,
+    });
+
+    // Auto close after 5 seconds
+    setTimeout(() => {
+      notification.close();
+    }, 5000);
+
+    // Click to focus window
+    notification.onclick = () => {
+      window.focus();
+      notification.close();
+    };
+  } catch (error) {
+    console.error('[UI] Failed to show notification:', error);
+  }
 }
 
 // Create peer card

@@ -243,7 +243,8 @@
     "copyFailed": "Échec de la copie",
     "shareNotSupported": "Votre navigateur ne supporte pas le partage",
     "shareFailed": "Échec du partage",
-    "invalidRoomCode": "Veuillez entrer le code de salle complet à 6 chiffres"
+    "invalidRoomCode": "Veuillez entrer le code de salle complet à 6 chiffres",
+    "notificationPermissionDenied": "Permission de notification du navigateur refusée"
   },
   "settings": {
     "title": "Paramètres",
@@ -267,6 +268,10 @@
     "prewarm": {
       "title": "Préchauffage connexion",
       "description": "Établit des connexions préalables lors de la découverte"
+    },
+    "notifications": {
+      "title": "Notifications du navigateur",
+      "description": "Afficher les notifications du navigateur lors de la réception de fichiers ou de messages"
     }
   },
   "navigation": {
@@ -306,5 +311,11 @@
     "networkError": "Erreur réseau",
     "fileReadFailed": "Échec de la lecture du fichier",
     "imageLoadFailed": "Échec du chargement de l'image"
+  },
+  "notification": {
+    "fileReceived": "Nouveau fichier reçu",
+    "fileReceivedBody": "{{sender}} vous a envoyé un fichier : {{file}}",
+    "messageReceived": "Nouveau message",
+    "messageReceivedBody": "{{sender}} vous a envoyé un message"
   }
 }

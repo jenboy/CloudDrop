@@ -240,7 +240,8 @@
     "copyFailed": "コピーに失敗しました",
     "shareNotSupported": "お使いのブラウザは共有をサポートしていません",
     "shareFailed": "共有に失敗しました",
-    "invalidRoomCode": "完全な6桁のルームコードを入力してください"
+    "invalidRoomCode": "完全な6桁のルームコードを入力してください",
+    "notificationPermissionDenied": "ブラウザ通知の許可が拒否されました"
   },
   "settings": {
     "title": "設定",
@@ -264,6 +265,10 @@
     "prewarm": {
       "title": "接続プリウォーム",
       "description": "デバイス発見時に事前接続を確立し、初回転送を高速化"
+    },
+    "notifications": {
+      "title": "ブラウザ通知",
+      "description": "ファイルやメッセージを受信したときにブラウザ通知を表示"
     }
   },
   "navigation": {
@@ -303,5 +308,11 @@
     "networkError": "ネットワークエラー",
     "fileReadFailed": "ファイルの読み取りに失敗しました",
     "imageLoadFailed": "画像の読み込みに失敗しました"
+  },
+  "notification": {
+    "fileReceived": "新しいファイルを受信しました",
+    "fileReceivedBody": "{{sender}} がファイルを送信しました：{{file}}",
+    "messageReceived": "新しいメッセージ",
+    "messageReceivedBody": "{{sender}} がメッセージを送信しました"
   }
 }

@@ -242,7 +242,8 @@
     "copyFailed": "Copy failed",
     "shareNotSupported": "Your browser doesn't support sharing",
     "shareFailed": "Share failed",
-    "invalidRoomCode": "Please enter complete 6-digit room code"
+    "invalidRoomCode": "Please enter complete 6-digit room code",
+    "notificationPermissionDenied": "Browser notification permission denied"
   },
   "settings": {
     "title": "Settings",
@@ -266,6 +267,10 @@
     "prewarm": {
       "title": "Connection Prewarm",
       "description": "Pre-establish connections when devices are discovered"
+    },
+    "notifications": {
+      "title": "Browser Notifications",
+      "description": "Show browser notifications when receiving files or messages"
     }
   },
   "navigation": {
@@ -305,5 +310,11 @@
     "networkError": "Network error",
     "fileReadFailed": "File read failed",
     "imageLoadFailed": "Image load failed"
+  },
+  "notification": {
+    "fileReceived": "New file received",
+    "fileReceivedBody": "{{sender}} sent you a file: {{file}}",
+    "messageReceived": "New message",
+    "messageReceivedBody": "{{sender}} sent you a message"
   }
 }

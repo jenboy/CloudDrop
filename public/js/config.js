@@ -28,6 +28,7 @@ export const DEFAULT_SETTINGS = {
   allowRelayFallback: true,      // 是否允许中继降级
   relayFallbackTimeout: 5,       // 中继降级超时（秒）
   enablePrewarm: true,           // 是否启用连接预热
+  enableNotifications: true,     // 是否启用浏览器通知（默认开启）
 };
 
 // =============================================================================

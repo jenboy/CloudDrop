@@ -241,7 +241,8 @@
     "copyFailed": "複製失敗",
     "shareNotSupported": "你的瀏覽器不支援分享功能",
     "shareFailed": "分享失敗",
-    "invalidRoomCode": "請輸入完整的6位房間號"
+    "invalidRoomCode": "請輸入完整的6位房間號",
+    "notificationPermissionDenied": "瀏覽器通知權限被拒絕"
   },
   "settings": {
     "title": "設定",
@@ -265,6 +266,10 @@
     "prewarm": {
       "title": "連接預熱",
       "description": "設備發現時預先建立連接，加快首次傳輸速度"
+    },
+    "notifications": {
+      "title": "瀏覽器通知",
+      "description": "收到文件或訊息時顯示瀏覽器通知"
     }
   },
   "navigation": {
@@ -304,5 +309,11 @@
     "networkError": "網絡錯誤",
     "fileReadFailed": "文件讀取失敗",
     "imageLoadFailed": "圖片載入失敗"
+  },
+  "notification": {
+    "fileReceived": "收到新文件",
+    "fileReceivedBody": "{{sender}} 發送了文件：{{file}}",
+    "messageReceived": "收到新訊息",
+    "messageReceivedBody": "{{sender}} 發送了一條訊息"
   }
 }

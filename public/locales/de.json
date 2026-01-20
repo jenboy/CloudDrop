@@ -243,7 +243,8 @@
     "copyFailed": "Kopieren fehlgeschlagen",
     "shareNotSupported": "Ihr Browser unterstützt das Teilen nicht",
     "shareFailed": "Teilen fehlgeschlagen",
-    "invalidRoomCode": "Bitte geben Sie den vollständigen 6-stelligen Raumcode ein"
+    "invalidRoomCode": "Bitte geben Sie den vollständigen 6-stelligen Raumcode ein",
+    "notificationPermissionDenied": "Browser-Benachrichtigungsberechtigung verweigert"
   },
   "settings": {
     "title": "Einstellungen",
@@ -267,6 +268,10 @@
     "prewarm": {
       "title": "Verbindungsvorwärmung",
       "description": "Stellt Verbindungen bei Geräteerkennung vorab her"
+    },
+    "notifications": {
+      "title": "Browser-Benachrichtigungen",
+      "description": "Browser-Benachrichtigungen beim Empfang von Dateien oder Nachrichten anzeigen"
     }
   },
   "navigation": {
@@ -306,5 +311,11 @@
     "networkError": "Netzwerkfehler",
     "fileReadFailed": "Datei konnte nicht gelesen werden",
     "imageLoadFailed": "Bild konnte nicht geladen werden"
+  },
+  "notification": {
+    "fileReceived": "Neue Datei erhalten",
+    "fileReceivedBody": "{{sender}} hat Ihnen eine Datei gesendet: {{file}}",
+    "messageReceived": "Neue Nachricht",
+    "messageReceivedBody": "{{sender}} hat Ihnen eine Nachricht gesendet"
   }
 }

@@ -243,7 +243,8 @@
     "copyFailed": "Copia fallida",
     "shareNotSupported": "Su navegador no soporta compartir",
     "shareFailed": "Compartir fallido",
-    "invalidRoomCode": "Por favor ingrese el código de sala completo de 6 dígitos"
+    "invalidRoomCode": "Por favor ingrese el código de sala completo de 6 dígitos",
+    "notificationPermissionDenied": "Permiso de notificación del navegador denegado"
   },
   "settings": {
     "title": "Configuración",
@@ -267,6 +268,10 @@
     "prewarm": {
       "title": "Precalentamiento de conexión",
       "description": "Establece conexiones previas al descubrir dispositivos"
+    },
+    "notifications": {
+      "title": "Notificaciones del navegador",
+      "description": "Mostrar notificaciones del navegador al recibir archivos o mensajes"
     }
   },
   "navigation": {
@@ -306,5 +311,11 @@
     "networkError": "Error de red",
     "fileReadFailed": "Lectura de archivo fallida",
     "imageLoadFailed": "Carga de imagen fallida"
+  },
+  "notification": {
+    "fileReceived": "Nuevo archivo recibido",
+    "fileReceivedBody": "{{sender}} le envió un archivo: {{file}}",
+    "messageReceived": "Nuevo mensaje",
+    "messageReceivedBody": "{{sender}} le envió un mensaje"
   }
 }

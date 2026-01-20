@@ -241,7 +241,8 @@
     "copyFailed": "복사 실패",
     "shareNotSupported": "브라우저가 공유를 지원하지 않습니다",
     "shareFailed": "공유 실패",
-    "invalidRoomCode": "6자리 방 코드를 모두 입력하세요"
+    "invalidRoomCode": "6자리 방 코드를 모두 입력하세요",
+    "notificationPermissionDenied": "브라우저 알림 권한이 거부되었습니다"
   },
   "settings": {
     "title": "설정",
@@ -265,6 +266,10 @@
     "prewarm": {
       "title": "연결 프리웜",
       "description": "기기 발견 시 사전 연결을 설정하여 첫 전송 속도 향상"
+    },
+    "notifications": {
+      "title": "브라우저 알림",
+      "description": "파일이나 메시지를 받을 때 브라우저 알림 표시"
     }
   },
   "navigation": {
@@ -304,5 +309,11 @@
     "networkError": "네트워크 오류",
     "fileReadFailed": "파일 읽기 실패",
     "imageLoadFailed": "이미지 로드 실패"
+  },
+  "notification": {
+    "fileReceived": "새 파일을 받았습니다",
+    "fileReceivedBody": "{{sender}}님이 파일을 보냈습니다: {{file}}",
+    "messageReceived": "새 메시지",
+    "messageReceivedBody": "{{sender}}님이 메시지를 보냈습니다"
   }
 }

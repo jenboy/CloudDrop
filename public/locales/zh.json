@@ -241,7 +241,8 @@
     "copyFailed": "复制失败",
     "shareNotSupported": "您的浏览器不支持分享功能",
     "shareFailed": "分享失败",
-    "invalidRoomCode": "请输入完整的6位房间号"
+    "invalidRoomCode": "请输入完整的6位房间号",
+    "notificationPermissionDenied": "浏览器通知权限被拒绝"
   },
   "settings": {
     "title": "设置",
@@ -265,6 +266,10 @@
     "prewarm": {
       "title": "连接预热",
       "description": "设备发现时预先建立连接，加快首次传输速度"
+    },
+    "notifications": {
+      "title": "浏览器通知",
+      "description": "收到文件或消息时显示浏览器通知"
     }
   },
   "navigation": {
@@ -304,5 +309,11 @@
     "networkError": "网络错误",
     "fileReadFailed": "文件读取失败",
     "imageLoadFailed": "图片加载失败"
+  },
+  "notification": {
+    "fileReceived": "收到新文件",
+    "fileReceivedBody": "{{sender}} 发送了文件：{{file}}",
+    "messageReceived": "收到新消息",
+    "messageReceivedBody": "{{sender}} 发送了一条消息"
   }
 }

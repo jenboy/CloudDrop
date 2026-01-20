@@ -419,6 +419,38 @@ class CloudDrop {
     this.setupKeyboardDetection();
     this.setupVisualViewport();
     this.setupLanguageSwitcher();
+
+    // Check notification permission on startup
+    await this.checkNotificationPermission();
+  }
+
+  /**
+   * Check and sync notification permission with settings
+   */
+  async checkNotificationPermission() {
+    // If notifications are enabled in settings
+    if (this.settings.enableNotifications) {
+      // Check if browser supports notifications
+      if (!('Notification' in window)) {
+        console.log('[App] Browser does not support notifications, disabling setting');
+        this.updateSetting('enableNotifications', false);
+        return;
+      }
+
+      // If permission is not granted, try to request it
+      if (Notification.permission !== 'granted') {
+        console.log('[App] Notification enabled but no permission, requesting...');
+        const granted = await ui.requestNotificationPermission();
+
+        // If permission denied, disable the setting
+        if (!granted) {
+          console.log('[App] Notification permission denied, disabling setting');
+          this.updateSetting('enableNotifications', false);
+        } else {
+          console.log('[App] Notification permission granted');
+        }
+      }
+    }
   }
 
   /**
@@ -810,6 +842,14 @@ class CloudDrop {
         const displayText = messageData.content || text;
         ui.showToast(`${peerName}: ${displayText.substring(0, 30)}${displayText.length > 30 ? '...' : ''}`, 'info');
       }
+
+      // Show browser notification if enabled
+      if (this.settings.enableNotifications) {
+        ui.showBrowserNotification({
+          type: 'message',
+          senderName: peerName
+        });
+      }
     };
 
     // Transfer start callback (for tracking fileId)
@@ -959,6 +999,15 @@ class CloudDrop {
 
     // Trigger notification (vibration)
     ui.triggerNotification('file');
+
+    // Show browser notification if enabled
+    if (this.settings.enableNotifications) {
+      ui.showBrowserNotification({
+        type: 'file',
+        senderName: peer?.name || i18n.t('deviceTypes.unknown'),
+        fileName: data.name
+      });
+    }
 
     // Show the confirmation modal
     ui.showModal('receiveModal');
@@ -2860,6 +2909,49 @@ class CloudDrop {
       // 同步到移动端
       if (prewarmToggle) prewarmToggle.checked = e.target.checked;
     });
+
+    // 浏览器通知开关 - 移动端
+    const notificationsToggle = document.getElementById('settingsNotifications');
+    notificationsToggle?.addEventListener('change', async (e) => {
+      const enabled = e.target.checked;
+
+      // 如果启用，请求通知权限
+      if (enabled) {
+        const granted = await ui.requestNotificationPermission();
+        if (!granted) {
+          // 权限被拒绝，取消选中
+          e.target.checked = false;
+          ui.showToast(i18n.t('toast.notificationPermissionDenied') || '浏览器通知权限被拒绝', 'warning');
+          return;
+        }
+      }
+
+      this.updateSetting('enableNotifications', enabled);
+      // 同步到桌面端
+      const popoverToggle = document.getElementById('popoverNotifications');
+      if (popoverToggle) popoverToggle.checked = enabled;
+    });
+
+    // 浏览器通知开关 - 桌面端
+    const popoverNotificationsToggle = document.getElementById('popoverNotifications');
+    popoverNotificationsToggle?.addEventListener('change', async (e) => {
+      const enabled = e.target.checked;
+
+      // 如果启用，请求通知权限
+      if (enabled) {
+        const granted = await ui.requestNotificationPermission();
+        if (!granted) {
+          // 权限被拒绝，取消选中
+          e.target.checked = false;
+          ui.showToast(i18n.t('toast.notificationPermissionDenied') || '浏览器通知权限被拒绝', 'warning');
+          return;
+        }
+      }
+
+      this.updateSetting('enableNotifications', enabled);
+      // 同步到移动端
+      if (notificationsToggle) notificationsToggle.checked = enabled;
+    });
   }
 
   /**
@@ -2884,6 +2976,10 @@ class CloudDrop {
     // 预热开关
     const prewarmToggle = document.getElementById(target === 'popover' ? 'popoverPrewarm' : 'settingsPrewarm');
     if (prewarmToggle) prewarmToggle.checked = this.settings.enablePrewarm;
+
+    // 通知开关
+    const notificationsToggle = document.getElementById(target === 'popover' ? 'popoverNotifications' : 'settingsNotifications');
+    if (notificationsToggle) notificationsToggle.checked = this.settings.enableNotifications;
   }
 
   /**
