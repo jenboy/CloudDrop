@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://cloudrop.cc">🌐 在线演示</a> •
   <a href="./README.md">🇺🇸 English</a> •
   <a href="#-特性">特性</a> •
   <a href="#-一键部署">部署</a> •
@@ -76,6 +77,8 @@
 将 CloudDrop 部署到您自己的 Cloudflare Workers：
 
 [![部署到 Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/DeH40/cloudDrop)
+
+**先体验一下：** 访问 [cloudrop.cc](https://cloudrop.cc) 查看 CloudDrop 的实际效果。
 
 ## 🛠️ 开发
 
